@@ -1,11 +1,23 @@
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from .models import Proforma, Producto, Detalle
+from .forms import ProductoForm
 
 # Create your views here.
 
 def home(request):
     return render(request, 'core/home.html')
+
+#añadir form a mi vista producto_new
+def producto_new(request):
+    form = ProductoForm()
+    if request.method == 'POST':
+        form = ProductoForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('productos_list')
+    context = {'form': form}
+    return render(request, 'core/producto_new.html', context)    
 
 def proformas_list(request):
     proformas = Proforma.objects.all()
