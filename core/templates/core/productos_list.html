@@ -1,0 +1,33 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Productos List{% endblock %}
+
+{% block content %}
+    <h1>Productos List</h1>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Price</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for producto in productos %}
+                <tr>
+                    <td>{{ producto.id }}</td>
+                    <td>{{ producto.nombre }}</td>
+                    <td>{{ producto.descripcion }}</td>
+                    <td>{{ producto.precio }}</td>
+                    <td>
+                        <a href="" class="btn btn-primary">Detail</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+         <a href="" class="btn btn-success">Create</a> 
+{% endblock %}

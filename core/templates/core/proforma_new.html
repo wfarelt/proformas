@@ -1,0 +1,65 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Proforma New{% endblock %}
+
+{% block content %}
+    Proforma: {{proforma.id}}
+    <br>
+    Fecha: {{proforma.fecha}}
+    <br>
+    Cliente: {{proforma.cliente}}
+    <br>
+    Total: {{proforma.total}}
+    <br>
+    
+    <h2>DETALLE DE COMPRA</h2>
+    {% for detalle in detalles %}
+        Producto: {{detalle.producto}} | Cantidad: {{detalle.cantidad}} | Precio: {{detalle.producto.precio}} | Subtotal: {{detalle.subtotal}}
+        <br>
+    {% endfor %}
+    
+    <h2>PRODUCTOS</h2>
+
+    sub: {{ subtotal }}
+    <table>
+        <tr>
+          <th>Codigo</th>
+          <th>Producto</th>
+          <th>Precio</th>
+          <th>Cantidad</th>
+          <th></th>
+        </tr>      
+        
+        {% for producto in productos_list %}
+        <tr>
+          <form method="POST" action="{% url 'agregar_producto_a_detalle' %}">
+            {% csrf_token %}
+            <input type="hidden" name="proforma_id" value="{{ proforma.id }}">
+            <input type="hidden" name="producto_id" value="{{ producto.id }}">
+            <td>{{ producto.nombre }}</td>
+            <td>{{ producto.descripcion }}</td>
+            <td>{{ producto.precio }}</td>
+            <td><input type="number" name="cantidad" placeholder="Cantidad"></td>
+            <td><input type="number" name="subtotal" placeholder="0"></td>
+            <td><button type="submit">Agregar producto</button></td>
+          </form>
+        </tr>
+        {% endfor %}
+      </table>
+    <br>
+    <a href="{% url 'proformas_list' %}" class="btn btn-primary"> <-- Volver a proformas</a>
+
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const cantidad = document.querySelector('input[name="cantidad"]');
+            const subtotal = document.querySelector('input[name="subtotal"]');
+            const precio = document.querySelector('input[name="precio"]');
+            cantidad.addEventListener('input', function() {
+                subtotal.value = cantidad.value * precio.value;
+            });
+        });
+    </script>
+{% endblock %}
