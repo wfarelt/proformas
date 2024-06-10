@@ -73,6 +73,15 @@ def agregar_producto_a_detalle(request):
         return redirect(reverse_lazy('proforma_edit', args=[proforma_id]))
     else:
         return render(request, 'core/home.html')
+
+# Eliminar detalle
+def eliminar_producto_a_detalle(request, id):
+    detalle = Detalle.objects.get(id=id)
+    proforma = detalle.proforma
+    proforma.total = float(proforma.total) - float(detalle.subtotal)
+    proforma.save()
+    detalle.delete()
+    return redirect(reverse_lazy('proforma_edit', args=[proforma.id]))
     
 
     

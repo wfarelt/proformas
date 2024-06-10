@@ -42,7 +42,8 @@
     <br>
     <h2>DETALLE DE COMPRA</h2>
     {% for detalle in detalles %}
-        Producto: {{detalle.producto}} | Cantidad: {{detalle.cantidad}} | Precio: {{detalle.producto.precio}} | Subtotal: {{detalle.subtotal}}
+        Producto: {{detalle.producto}} | Cantidad: {{detalle.cantidad}} | Precio: {{detalle.producto.precio}} | Subtotal: {{detalle.subtotal}} |
+        <a href="{% url 'eliminar_producto_a_detalle' detalle.id %}" class="btn btn-danger">Eliminar</a>
         <br>
     {% endfor %}
     <br><br>
