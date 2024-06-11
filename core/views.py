@@ -2,6 +2,7 @@ from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from .models import Proforma, Producto, Detalle
 from .forms import ProductoForm
+from core import models
 
 # Create your views here.
 
@@ -64,7 +65,7 @@ def agregar_producto_a_detalle(request):
         # CREAR DETALLE
         proforma = Proforma.objects.get(id=proforma_id)
         producto = Producto.objects.get(id=producto_id)
-        detalle = Detalle.objects.create(proforma=proforma, producto=producto, cantidad=cantidad, subtotal=subtotal)
+        detalle = Detalle.objects.create(proforma=proforma, producto=producto, cantidad=cantidad, precio_venta=precio , subtotal=subtotal)
         detalle.save()
         # ACTUALIZAR TOTAL DE PROFORMA        
         proforma.total = float(proforma.total) + float(subtotal)
@@ -82,9 +83,5 @@ def eliminar_producto_a_detalle(request, id):
     proforma.save()
     detalle.delete()
     return redirect(reverse_lazy('proforma_edit', args=[proforma.id]))
-    
-
-    
-    
     
     

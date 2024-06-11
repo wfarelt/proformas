@@ -6,17 +6,17 @@ from .models import Producto
 class ProductoForm(forms.ModelForm):
     class Meta:
         model = Producto
-        fields = ['nombre', 'descripcion', 'precio']
+        fields = ['nombre', 'descripcion', 'stock', 'precio']
         labels = {
             'nombre': 'Nombre',
             'descripcion': 'Descripción',
+            'stock': 'Stock',
             'precio': 'Precio',
         }
         widgets = {
             'nombre': forms.TextInput(attrs={'class': 'form-control'}),
             'descripcion': forms.Textarea(attrs={'class': 'form-control'}),
-            'precio': forms.NumberInput(attrs={'class': 'form-control'}),
+            'stock': forms.NumberInput(attrs={'class': 'form-control'}), # 'type': 'number
+            'precio': forms.NumberInput(attrs={'class': 'form-control'}),            
         }
-    
 
-    

@@ -13,13 +13,18 @@
     Total: {{proforma.total}}
     <br>
     
+
+
     <h2>PRODUCTOS</h2>
+ 
     <table>
         <tr>
           <th>Codigo</th>
-          <th>Producto</th>
+          <th>Descripcion</th>
+          <th>Stock</th>
           <th>Precio</th>
           <th>Cantidad</th>
+          <th>Subtotal</th>
           <th></th>
         </tr>      
         
@@ -31,7 +36,8 @@
             <input type="hidden" name="producto_id" value="{{ producto.id }}">
             <td>{{ producto.nombre }}</td>
             <td>{{ producto.descripcion }}</td>
-            <td><input type="number" id="precio{{ producto.id}}" name="precio" value="{{ producto.precio  }}"></td>
+            <td>{{ producto.stock }}</td>
+            <td><input type="number" id="precio{{ producto.id}}" name="precio" value="{{ producto.precio  }}" step="0.01"></td>
             <td><input type="number" id="cantidad{{ producto.id}}" name="cantidad" placeholder="0"></td>
             <td><input type="number" id="subtotal{{ producto.id}}" name="subtotal" value="{{ producto.precio  }}" readonly></td>    
             <td><button type="submit">Agregar producto</button></td>
@@ -42,7 +48,7 @@
     <br>
     <h2>DETALLE DE COMPRA</h2>
     {% for detalle in detalles %}
-        Producto: {{detalle.producto}} | Cantidad: {{detalle.cantidad}} | Precio: {{detalle.producto.precio}} | Subtotal: {{detalle.subtotal}} |
+        Producto: {{detalle.producto}} | Cantidad: {{detalle.cantidad}} | Precio: {{detalle.precio_venta }} Bs.- | Subtotal: {{detalle.subtotal}} |
         <a href="{% url 'eliminar_producto_a_detalle' detalle.id %}" class="btn btn-danger">Eliminar</a>
         <br>
     {% endfor %}
