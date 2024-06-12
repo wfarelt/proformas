@@ -4,54 +4,67 @@
 {% load static %}
 
 {% block content %}
-    Proforma: {{proforma.id}}
-    <br>
-    Fecha: {{proforma.fecha}}
-    <br>
-    Cliente: {{proforma.cliente}}
-    <br>
-    Total: {{proforma.total}}
-    <br>
+
+        Proforma: {{proforma.id}}
+        <br>
+        Fecha: {{proforma.fecha}}
+        <br>
+        Cliente: {{proforma.cliente}}
+        <br>
+        Total: {{proforma.total}}
+        <br>
+
+   
+
+  
+
+
+      <h2>PRODUCTOS</h2>
+      <table>
+          <tr>
+            <th>Codigo</th>
+            <th>Descripcion</th>
+            <th>Stock</th>
+            <th>Precio</th>
+            <th>Cantidad</th>
+            <th>Subtotal</th>
+            <th></th>
+          </tr>      
+          
+          {% for producto in productos_list %}
+          <tr>
+            <form method="POST" action="{% url 'agregar_producto_a_detalle' %}">
+              {% csrf_token %}
+              <input type="hidden" name="proforma_id" value="{{ proforma.id }}">
+              <input type="hidden" name="producto_id" value="{{ producto.id }}">
+              <td>{{ producto.nombre }}</td>
+              <td>{{ producto.descripcion }}</td>
+              <td>{{ producto.stock }}</td>
+              <td><input type="number" id="precio{{ producto.id}}" name="precio" value="{{ producto.precio  }}" step="0.01"></td>
+              <td><input type="number" id="cantidad{{ producto.id}}" name="cantidad" placeholder="0"></td>
+              <td><input type="number" id="subtotal{{ producto.id}}" name="subtotal" value="{{ producto.precio  }}" readonly></td>    
+              <td><button type="submit">Agregar producto</button></td>
+            </form>
+          </tr>
+          {% endfor %}
+      </table>
+    
+
+      <br><br>
+      <h2>DETALLE DE COMPRA</h2>
+      {% for detalle in detalles %}
+          Producto: {{detalle.producto}} | Cantidad: {{detalle.cantidad}} | Precio: {{detalle.precio_venta }} Bs.- | Subtotal: {{detalle.subtotal}} |
+          <a href="{% url 'eliminar_producto_a_detalle' detalle.id %}" class="btn btn-danger">Eliminar</a>
+          <br>
+      {% endfor %}
+
+    <br><br>
     
 
 
-    <h2>PRODUCTOS</h2>
- 
-    <table>
-        <tr>
-          <th>Codigo</th>
-          <th>Descripcion</th>
-          <th>Stock</th>
-          <th>Precio</th>
-          <th>Cantidad</th>
-          <th>Subtotal</th>
-          <th></th>
-        </tr>      
-        
-        {% for producto in productos_list %}
-        <tr>
-          <form method="POST" action="{% url 'agregar_producto_a_detalle' %}">
-            {% csrf_token %}
-            <input type="hidden" name="proforma_id" value="{{ proforma.id }}">
-            <input type="hidden" name="producto_id" value="{{ producto.id }}">
-            <td>{{ producto.nombre }}</td>
-            <td>{{ producto.descripcion }}</td>
-            <td>{{ producto.stock }}</td>
-            <td><input type="number" id="precio{{ producto.id}}" name="precio" value="{{ producto.precio  }}" step="0.01"></td>
-            <td><input type="number" id="cantidad{{ producto.id}}" name="cantidad" placeholder="0"></td>
-            <td><input type="number" id="subtotal{{ producto.id}}" name="subtotal" value="{{ producto.precio  }}" readonly></td>    
-            <td><button type="submit">Agregar producto</button></td>
-          </form>
-        </tr>
-        {% endfor %}
-    </table>
-    <br>
-    <h2>DETALLE DE COMPRA</h2>
-    {% for detalle in detalles %}
-        Producto: {{detalle.producto}} | Cantidad: {{detalle.cantidad}} | Precio: {{detalle.precio_venta }} Bs.- | Subtotal: {{detalle.subtotal}} |
-        <a href="{% url 'eliminar_producto_a_detalle' detalle.id %}" class="btn btn-danger">Eliminar</a>
-        <br>
-    {% endfor %}
+    
+    
+    
     <br><br>
     <a href="{% url 'proformas_list' %}" class="btn btn-primary"> <-- Volver a proformas</a>
 

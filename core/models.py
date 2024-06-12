@@ -48,3 +48,15 @@ class Detalle(models.Model):
     def productos_list(proforma):
         detalles = Detalle.objects.filter(proforma=proforma)
         return detalles
+
+# CLIENTE
+#name (string); #email (string); #phone (string); #address (string)
+class Cliente(models.Model):
+    name = models.CharField(max_length=100)
+    nit = models.CharField(blank=True, null=True, max_length=15)
+    email = models.EmailField(blank=True, null=True, max_length=100)
+    phone = models.CharField(blank=True, null=True, max_length=15)
+    address = models.CharField(blank=True, null=True, max_length=100)
+    
+    def __str__(self):
+        return self.name

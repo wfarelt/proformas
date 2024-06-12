@@ -1,8 +1,7 @@
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy
-from .models import Proforma, Producto, Detalle
-from .forms import ProductoForm
-from core import models
+from .models import Proforma, Producto, Detalle, Cliente
+from .forms import ProductoForm, ClienteForm
 
 # Create your views here.
 
@@ -84,4 +83,35 @@ def eliminar_producto_a_detalle(request, id):
     detalle.delete()
     return redirect(reverse_lazy('proforma_edit', args=[proforma.id]))
     
-    
+
+# Cliente nuevo
+def clientes_list(request):
+    clientes = Cliente.objects.all()
+    context = {'clientes': clientes}
+    return render(request, 'core/clientes_list.html', context)
+
+def cliente_new(request):
+    form = ClienteForm()
+    if request.method == 'POST':
+        form = ClienteForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('clientes_list')
+    context = {'form': form}
+    return render(request, 'core/cliente_form.html', context)
+
+def cliente_edit(request, id):
+    cliente = get_object_or_404(Cliente, pk=id)
+    if request.method == 'POST':
+        form = ClienteForm(request.POST, instance=cliente)
+        if form.is_valid():
+            form.save()
+            return redirect('clientes_list')
+    else:
+        form = ClienteForm(instance=cliente)
+    return render(request, 'core/cliente_form.html', {'form': form})   
+
+def cliente_delete(request, id):
+    cliente = Cliente.objects.get(id=id)
+    cliente.delete()
+    return redirect('clientes_list')
