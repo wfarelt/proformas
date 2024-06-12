@@ -9,6 +9,12 @@ def home(request):
     return render(request, 'core/home.html')
 
 # Nuevo producto
+def product_detail(request, id):
+    producto = Producto.objects.get(id=id)
+    title = 'Detalle de producto'
+    context = {'producto': producto, 'title': title}
+    return render(request, 'core/product_detail.html', context)
+
 def producto_new(request):
     form = ProductoForm()
     if request.method == 'POST':
@@ -16,13 +22,27 @@ def producto_new(request):
         if form.is_valid():
             form.save()
             return redirect('productos_list')
-    context = {'form': form}
-    return render(request, 'core/producto_new.html', context)    
+    title = 'Nuevo producto'
+    context = {'form': form, 'title': title}
+    return render(request, 'core/producto_new.html', context)  
+
+def product_edit(request, id):
+    title = 'Editar producto'
+    producto = get_object_or_404(Producto, pk=id)
+    if request.method == 'POST':
+        form = ProductoForm(request.POST, instance=producto)
+        if form.is_valid():
+            form.save()
+            return redirect('productos_list')
+    else:
+        form = ProductoForm(instance=producto)
+    return render(request, 'core/producto_new.html', {'form': form, 'title': title})
 
 # Listar productos
 def productos_list(request):
     productos = Producto.objects.all()
-    context = {'productos': productos}
+    title = 'Listado de productos'
+    context = {'productos': productos, 'title': title}
     return render(request, 'core/productos_list.html', context)
 
 # Listar proformas

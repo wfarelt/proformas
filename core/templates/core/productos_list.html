@@ -1,9 +1,11 @@
 {% extends 'core/base.html' %}
 
-{% block title %}Productos List{% endblock %}
+{% block title %}{{ title }}{% endblock %}
 
 {% block content %}
     <h1>Productos List</h1>
+    <a href="{% url 'producto_new' %}">Create</a> 
+    <br><br>
     <table class="table">
         <thead>
             <tr>
@@ -22,12 +24,12 @@
                     <td>{{ producto.descripcion }}</td>
                     <td>{{ producto.precio }}</td>
                     <td>
-                        <a href="" class="btn btn-primary">Detail</a>
+                        <a href="{% url 'product_detail' producto.id %}" class="btn btn-primary">Detail</a>
+                        <a href="{% url 'product_edit' producto.id %}" class="btn btn-primary">Edit</a>
                     </td>
                 </tr>
             {% endfor %}
         </tbody>
     </table>
     
-         <a href="{% url 'producto_new' %}" class="btn btn-success">Create</a> 
 {% endblock %}
