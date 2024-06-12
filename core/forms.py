@@ -6,18 +6,20 @@ from .models import Producto, Cliente
 class ProductoForm(forms.ModelForm):
     class Meta:
         model = Producto
-        fields = ['nombre', 'descripcion', 'stock', 'precio']
+        fields = ['nombre', 'descripcion', 'stock', 'precio', 'location']
         labels = {
             'nombre': 'Nombre',
             'descripcion': 'Descripción',
             'stock': 'Stock',
             'precio': 'Precio',
+            'location': 'Ubicación',
         }
         widgets = {
             'nombre': forms.TextInput(attrs={'class': 'form-control'}),
             'descripcion': forms.Textarea(attrs={'class': 'form-control'}),
             'stock': forms.NumberInput(attrs={'class': 'form-control'}), # 'type': 'number
             'precio': forms.NumberInput(attrs={'class': 'form-control'}),            
+            'location': forms.TextInput(attrs={'class': 'form-control'}),
         }
 
 # CREAR UN FORMULARIO PARA CLIENTE
