@@ -27,8 +27,8 @@ class Proforma(models.Model):
     total = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
 
     def __str__(self):
-        return f"Proforma #{self.id} - {self.cliente}"
-
+        return self.id
+    
     class Meta:
         verbose_name = "Proforma"
         verbose_name_plural = "Proformas" 

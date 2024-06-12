@@ -1,7 +1,7 @@
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy
 from .models import Proforma, Producto, Detalle, Cliente
-from .forms import ProductoForm, ClienteForm
+from .forms import ProductoForm, ClienteForm, ProformaAddClientForm
 
 # Create your views here.
 
@@ -57,6 +57,17 @@ def proforma_new(request):
     productos_list = Producto.objects.all()
     context = {'proforma': proforma, 'productos_list': productos_list}
     return render(request, 'core/proforma_new.html', context)
+
+def proforma_add_client(request, id):
+    proforma = Proforma.objects.get(id=id)
+    if request.method == 'POST':
+        form = ProformaAddClientForm(request.POST, instance=proforma)
+        if form.is_valid():
+            form.save()
+            return redirect('proforma_edit', id)
+    else:
+        form = ProformaAddClientForm(instance=proforma)
+    return render(request, 'core/proforma_add_client.html', {'form': form})
 
 # Editar proforma
 def proforma_edit(request, id):
