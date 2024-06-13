@@ -13,11 +13,8 @@
         <br>
         Total: {{proforma.total}}
         <br>
-
-   
-
-  
-
+        <a href="{% url 'generate_proforma_pdf' proforma.id %}" class="btn btn-primary">Generar PDF</a>
+        <br>
 
       <h2>PRODUCTOS</h2>
       <table>
@@ -48,9 +45,8 @@
           </tr>
           {% endfor %}
       </table>
-    
+      <br>
 
-      <br><br>
       <h2>DETALLE DE COMPRA</h2>
       {% for detalle in detalles %}
           {{ forloop.counter }} |
@@ -61,15 +57,7 @@
           <a href="{% url 'eliminar_producto_a_detalle' detalle.id %}" class="btn btn-danger">Eliminar</a>
           <br>
       {% endfor %}
-
-    <br><br>
-    
-
-
-    
-    
-    
-    <br><br>
+    <br>
     <a href="{% url 'proformas_list' %}" class="btn btn-primary"> <-- Volver a proformas</a>
 
 {% endblock %}
