@@ -16,6 +16,7 @@
             <p>{{ producto.descripcion }}</p>
             <p>Precio: ${{ producto.precio }}</p>
             <p>Stock: {{ producto.stock }}</p>
+            <p>Ubicación: {{ producto.location }}</p>
             <a href="{% url 'productos_list' %}" class="btn btn-primary">Volver</a>
         </div>
     </div>
