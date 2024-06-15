@@ -1,6 +1,6 @@
 
 from django import forms
-from .models import Producto, Cliente
+from .models import Producto, Cliente, Proforma
 
 # CREAR UN FORMULARIO PARA PRODUCTO
 class ProductoForm(forms.ModelForm):
@@ -41,3 +41,16 @@ class ClienteForm(forms.ModelForm):
             'phone': forms.TextInput(attrs={'class': 'form-control'}),
             'address': forms.TextInput(attrs={'class': 'form-control'}),
         }
+
+# CREAR UN FORMULARIO PARA MODIFICAR CLIENTE DE PROFORMA
+class ProformaAddClientForm(forms.ModelForm):
+    class Meta:
+        model = Proforma
+        fields = ['cliente']
+        labels = {
+            'cliente': 'Cliente',
+        }
+        widgets = {
+            'cliente': forms.TextInput(attrs={'class': 'form-control'}),
+        }
+        

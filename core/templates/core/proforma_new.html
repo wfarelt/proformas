@@ -9,15 +9,11 @@
         <br>
         Fecha: {{proforma.fecha}}
         <br>
-        Cliente: {{proforma.cliente}}
+        Cliente: {{proforma.cliente}} 
+        <a href="{% url 'proforma_add_client' proforma.id %}" class="btn btn-primary">Cambiar cliente</a>
         <br>
         Total: {{proforma.total}}
         <br>
-
-   
-
-  
-
 
       <h2>PRODUCTOS</h2>
       <table>
