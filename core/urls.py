@@ -2,7 +2,8 @@ from django.urls import path
 from .views import home, proformas_list, proforma_add_client , proforma_new, proforma_edit,\
     agregar_producto_a_detalle, producto_new, eliminar_producto_a_detalle, \
         clientes_list, cliente_new, cliente_edit, cliente_delete, \
-            product_detail, product_edit, productos_list, generate_proforma_pdf
+            product_detail, product_edit, productos_list, generate_proforma_pdf, \
+                reportes
 
 urlpatterns = [
     path('', home, name='home'),
@@ -25,4 +26,5 @@ urlpatterns = [
     path('cliente/delete/<int:id>/', cliente_delete, name='cliente_delete'),
     #reporte pdf
     path('proforma/pdf/<int:id>', generate_proforma_pdf, name='generate_proforma_pdf'),
+    path('reportes/', reportes, name='reportes'),
 ]

@@ -172,3 +172,7 @@ def generate_proforma_pdf(request, id):
     response['Content-Disposition'] = 'inline; filename="proforma.pdf"'
     HTML(string=html).write_pdf(response)
     return response
+
+# ReportesGenerales
+def reportes(request):
+    return render(request, 'core/reportes.html')
