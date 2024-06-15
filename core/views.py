@@ -2,6 +2,10 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy
 from .models import Proforma, Producto, Detalle, Cliente
 from .forms import ProductoForm, ClienteForm, ProformaAddClientForm
+#reporte pdf
+from django.http import HttpResponse
+from django.template.loader import get_template
+from weasyprint import HTML
 
 # Create your views here.
 
@@ -146,3 +150,25 @@ def cliente_delete(request, id):
     cliente = Cliente.objects.get(id=id)
     cliente.delete()
     return redirect('clientes_list')
+
+# Generar proforma en PDF
+def generate_proforma_pdf(request, id):
+    proforma = Proforma.objects.get(id=id)
+    # Datos de ejemplo, puedes obtenerlos de tu base de datos
+    context = {
+        'id': proforma.id,
+        'cliente': proforma.cliente,
+        'fecha': proforma.fecha,        
+        'detalles': Detalle.objects.filter(proforma=proforma),
+        'total': proforma.total,
+    }
+
+    # Renderizar la plantilla HTML con el contexto
+    template = get_template('core/proforma_template.html')
+    html = template.render(context)
+
+    # Generar el PDF usando WeasyPrint
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'inline; filename="proforma.pdf"'
+    HTML(string=html).write_pdf(response)
+    return response
