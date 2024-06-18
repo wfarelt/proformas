@@ -13,6 +13,8 @@
                 <th>Name</th>
                 <th>Description</th>
                 <th>Price</th>
+                <th>Stock</th>
+                <th>Ubicación</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -23,6 +25,8 @@
                     <td>{{ producto.nombre }}</td>
                     <td>{{ producto.descripcion }}</td>
                     <td>{{ producto.precio }}</td>
+                    <td style="text-align: center;">{{ producto.stock }}</td>
+                    <td>{{ producto.location }}</td>
                     <td>
                         <a href="{% url 'product_detail' producto.id %}" class="btn btn-primary">Detail</a>
                         <a href="{% url 'product_edit' producto.id %}" class="btn btn-primary">Edit</a>

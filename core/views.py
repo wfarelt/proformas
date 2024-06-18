@@ -6,6 +6,7 @@ from .forms import ProductoForm, ClienteForm, ProformaAddClientForm
 from django.http import HttpResponse
 from django.template.loader import get_template
 from weasyprint import HTML
+from nlt import numlet as nl
 
 # Create your views here.
 
@@ -151,16 +152,23 @@ def cliente_delete(request, id):
     cliente.delete()
     return redirect('clientes_list')
 
+def numero_a_literal(numero):
+    entero = int(numero)
+    decimal = int((numero - entero) * 100)
+    return nl.Numero(entero).a_letras + ' con ' + str(decimal) + '/100 Dólares'
+
 # Generar proforma en PDF
 def generate_proforma_pdf(request, id):
     proforma = Proforma.objects.get(id=id)
     # Datos de ejemplo, puedes obtenerlos de tu base de datos
+    literal = numero_a_literal(proforma.total)
     context = {
         'id': proforma.id,
         'cliente': proforma.cliente,
         'fecha': proforma.fecha,        
         'detalles': Detalle.objects.filter(proforma=proforma),
         'total': proforma.total,
+        'literal': literal
     }
 
     # Renderizar la plantilla HTML con el contexto
