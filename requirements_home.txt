@@ -4,13 +4,10 @@ cffi==1.16.0
 cssselect2==0.7.0
 diff-match-patch==20230430
 Django==5.0.4
-django-import-export==4.0.7
 et-xmlfile==1.1.0
 fonttools==4.53.0
 html5lib==1.1
-numlet==2.0.0
 openpyxl==3.1.3
-pillow==10.3.0
 pycparser==2.22
 pydyf==0.10.0
 pyphen==0.15.0
@@ -20,6 +17,13 @@ tablib==3.5.0
 tinycss2==1.3.0
 typing_extensions==4.11.0
 tzdata==2024.1
-weasyprint==62.2
 webencodings==0.5.1
 zopfli==0.2.3
+# Edicion de imagenes en Python
+pillow==10.3.0
+# Generar PDF a partir de HTML
+weasyprint==62.2
+# Importar y exportar archivos de excel
+django-import-export==4.0.7
+# Convertir numeros a letras
+numlet==2.0.0

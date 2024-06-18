@@ -1,5 +1,6 @@
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy
+from django.views.generic import ListView
 from .models import Proforma, Producto, Detalle, Cliente
 from .forms import ProductoForm, ClienteForm, ProformaAddClientForm
 #reporte pdf
@@ -119,12 +120,18 @@ def eliminar_producto_a_detalle(request, id):
     detalle.delete()
     return redirect(reverse_lazy('proforma_edit', args=[proforma.id]))
     
+class ClientListView(ListView):
+    model = Cliente
+    template_name = 'core/client_list.html'  # Nombre de la plantilla
+    context_object_name = 'clientes'
+    paginate_by = 10  # Número de clientes por página
 
-# Cliente nuevo
-def clientes_list(request):
-    clientes = Cliente.objects.all()
-    context = {'clientes': clientes}
-    return render(request, 'core/clientes_list.html', context)
+    def get_queryset(self):
+        query = self.request.GET.get('q')
+        object_list = Cliente.objects.all()
+        if query:
+            object_list = object_list.filter(name__icontains=query) | object_list.filter(nit__icontains=query)
+        return object_list
 
 def cliente_new(request):
     form = ClienteForm()
@@ -132,7 +139,7 @@ def cliente_new(request):
         form = ClienteForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('clientes_list')
+            return redirect('client_list')
     context = {'form': form}
     return render(request, 'core/cliente_form.html', context)
 
@@ -142,7 +149,7 @@ def cliente_edit(request, id):
         form = ClienteForm(request.POST, instance=cliente)
         if form.is_valid():
             form.save()
-            return redirect('clientes_list')
+            return redirect('client_list')
     else:
         form = ClienteForm(instance=cliente)
     return render(request, 'core/cliente_form.html', {'form': form})   
@@ -150,7 +157,7 @@ def cliente_edit(request, id):
 def cliente_delete(request, id):
     cliente = Cliente.objects.get(id=id)
     cliente.delete()
-    return redirect('clientes_list')
+    return redirect('client_list')
 
 def numero_a_literal(numero):
     entero = int(numero)
@@ -184,3 +191,4 @@ def generate_proforma_pdf(request, id):
 # ReportesGenerales
 def reportes(request):
     return render(request, 'core/reportes.html')
+
